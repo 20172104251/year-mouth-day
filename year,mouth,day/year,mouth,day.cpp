@@ -21,25 +21,69 @@ public:
 	void display();
 	Year operator +(Year & ol);
 	Year operator -(Year & o2);
+	void jiajia();
 };
 void Year::setvalue(int a, int b, int c)
 {
-	int i,j;
-	int r[12] = { 31,29,31,30,31,30,31,31,30,31,30,31 };
-	int p[12]=  { 31,28,31,30,31,30,31,31,30,31,30,31 };
-	for (j = 1; j <= month; j++)
+	year = a;
+	month = b;
+	day = c;
+}
+Year Year::operator+(Year & o1)
+{
+	Year date;
+	date.setvalue(year + o1.year, month + o1.month, day + o1.day);
+	return date;
+}
+void Year::display()
+{
+	cout << year << "年" << month << "月" << day<<"日"<< endl;
+}
+void Year::jiajia()
+{
+	int jyear,liang,i;
+	int r[12] = { 31,29,31,30,31,30,31,31,30,31,30,31 };//闰年
+	int p[12] = { 31,28,31,30,31,30,31,31,30,31,30,31 };//平年
+	liang = month;
+	jyear = liang / 12;
+	month = liang % 12;
+	year =year+jyear;
+	cout << year << "年" << endl;
+	if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0)
 	{
-		b += r[j - 1];
+		for (i = 1; i < month; i++)
+		{
+			liang = r[i];
+		}
+		cout << "liang=="<<liang << endl;
 	}
-	year = a + b / 12;
-	if (year % 400 == 0 && year % 100 == 0 || year % 4 == 0)
+	else
 	{
-		month = b + c /
+		for (i = 1; i < month; i++)
+		{
+			liang = p[i];
+		}
+		cout << "liang=="<<liang << endl;
 	}
-	
+	if (day / liang > 0)
+	{
+		month = liang+day / liang;
+		day = day%liang;
+		if (month >= 12)
+		{
+			year=year+month/12;
+		}
+	}
 }
 int main()
 {
+	Year q1, q2, q3;
+	q1.setvalue(1999, 12, 20);
+	q2.setvalue(3, 12, 21);
+	q3 = q1 + q2;
+	q3.display();
+	q3.jiajia();
+	q3.display();
     return 0;
 }
 
