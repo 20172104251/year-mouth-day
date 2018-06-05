@@ -21,7 +21,7 @@ public:
 	void display();
 	Year operator +(Year & ol);
 	Year operator -(Year & o2);
-	void jiajia();
+	void sum();
 };
 void Year::setvalue(int a, int b, int c)
 {
@@ -39,42 +39,103 @@ void Year::display()
 {
 	cout << year << "年" << month << "月" << day<<"日"<< endl;
 }
-void Year::jiajia()
+
+void Year::sum()
 {
-	int jyear,liang,i;
+	int i,yue;
 	int r[12] = { 31,29,31,30,31,30,31,31,30,31,30,31 };//闰年
 	int p[12] = { 31,28,31,30,31,30,31,31,30,31,30,31 };//平年
-	liang = month;
-	jyear = liang / 12;
-	month = liang % 12;
+	if (month > 12)
+	{
+		for (; month > 12;)
+		{
+			year = year + month / 12;
+			if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0)
+			{
+				for (; day > r[month + 1];)
+				{
+					day = day%r[month + 1];
+					month++;
+				}
+			}
+			else
+			{
+				for (; day > p[month + 1];)
+				{
+					day = day%p[month + 1];
+					month++;
+				}
+			}
+		}
+	}
+	else
+	{
+		if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0)
+		{
+			for (; day > r[month + 1];)
+			{
+				day = day%r[month + 1];
+				month++;
+			}
+		}
+		else
+		{
+			for (; day > p[month + 1];)
+			{
+				day = day%p[month + 1];
+				month++;
+			}
+		}
+		year=year+month/12;
+		month = month % 12;
+		if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0)
+		{
+			for (; day > r[month + 1];)
+			{
+				day = day%r[month + 1];
+				month++;
+			}
+		}
+		else
+		{
+			for (; day > p[month + 1];)
+			{
+				day = day%p[month + 1];
+				month++;
+			}
+		}
+		
+	}
+}
+/*
+{
+	int jyear,yue,i;
+	int r[12] = { 31,29,31,30,31,30,31,31,30,31,30,31 };//闰年
+	int p[12] = { 31,28,31,30,31,30,31,31,30,31,30,31 };//平年
+	yue = month;
+	jyear = yue / 12;
 	year =year+jyear;
 	cout << year << "年" << endl;
+	month = yue % 12;
 	if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0)
 	{
 		for (i = 1; i < month; i++)
 		{
-			liang = r[i];
+			yue = r[i];
 		}
-		cout << "liang=="<<liang << endl;
 	}
 	else
 	{
 		for (i = 1; i < month; i++)
 		{
-			liang = p[i];
+			yue = p[i];
 		}
-		cout << "liang=="<<liang << endl;
+//		cout << "月=="<<yue << endl;
 	}
-	if (day / liang > 0)
-	{
-		month = liang+day / liang;
-		day = day%liang;
-		if (month >= 12)
-		{
-			year=year+month/12;
-		}
-	}
-}
+	month = month + day / yue;
+	day = day%yue;
+	year = year + month / 12;	
+}*/
 int main()
 {
 	Year q1, q2, q3;
@@ -82,7 +143,7 @@ int main()
 	q2.setvalue(3, 12, 21);
 	q3 = q1 + q2;
 	q3.display();
-	q3.jiajia();
+	q3.sum();
 	q3.display();
     return 0;
 }
